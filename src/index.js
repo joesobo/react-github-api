@@ -1,6 +1,7 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { Button, FormControl, ListGroupItem, ListGroup } from 'react-bootstrap';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Button, FormControl } from 'react-bootstrap';
+import RepoList from './RepoList';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css'
 
@@ -58,41 +59,8 @@ class Home extends React.Component {
                     </Button>
                </div>
 
-                <RepoList
-                 items={this.state.repoItems}/>
+                <RepoList items={this.state.repoItems}/>
             </div>
-        );
-    }
-}
-
-class RepoList extends React.Component {
-    render() {
-        var array = [];
-        for(let i = 0; i < this.props.items.length; i++) {
-            array.push(
-                <RepoItem 
-                 key={i}
-                 item={this.props.items[i]}/>
-            );
-        }
-
-        return (
-            <ListGroup
-             className="list-group mx-auto mb-5 repo-list">{array}</ListGroup>
-        );
-    }
-}
-
-class RepoItem extends React.Component {
-    render() {
-        var url = this.props.item.html_url;
-
-        return (
-            <ListGroupItem>
-                <p><strong>Repo:</strong> {this.props.item.name}</p>
-                <p><strong>Description:</strong> {this.props.item.description}</p>
-                <p><strong>URL:</strong> <a href={url}>{this.props.item.html_url}</a></p>
-            </ListGroupItem>
         );
     }
 }
