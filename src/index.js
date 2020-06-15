@@ -14,7 +14,8 @@ class Home extends React.Component {
            repoItems: [],
            showRepoList: false,
            followers: [],
-           following: []
+           following: [],
+           sortUpdate: true
         }
     }
 
@@ -26,9 +27,19 @@ class Home extends React.Component {
         return this.state.name.length;
     }
 
+    findUserRepoInfo(self, sortUpdated = true) {
+        if (sortUpdated) {
+            this.getData(`https://api.github.com/users/${this.state.name}/repos?sort=updated`)
+             .then(data => self.setState({repoItems: data, showRepoList: true}));
+        } else {
+            this.getData(`https://api.github.com/users/${this.state.name}/repos?sort=created`)
+             .then(data => self.setState({repoItems: data, showRepoList: true}));
+        }
+    }
+
     findUserInfo(self) {
-        this.getData(`https://api.github.com/users/${this.state.name}/repos?sort=updated`)
-         .then(data => self.setState({repoItems: data, showRepoList: true}));
+        this.findUserRepoInfo(self);
+        
         this.getData(`https://api.github.com/users/${this.state.name}/followers`)
          .then(data => self.setState({followers: data}));
         this.getData(`https://api.github.com/users/${this.state.name}/following`)
@@ -52,7 +63,7 @@ class Home extends React.Component {
 
         return(
             <div className='home'>
-                <h3 className="text-center mt-5">React Github API</h3>
+                <h3 className="text-center mt-2">React Github API</h3>
                 <div className="form-inline mx-auto search-form"
                  onKeyPress={(e) => e.key === "Enter" ? this.findUserInfo(self) : ''}>
                     <FormControl
@@ -74,9 +85,29 @@ class Home extends React.Component {
                     <div>
                         <h4>{this.state.name}</h4>
 
-                        <Row className="mb-3 mx-auto">
+                        <Row className="mb-2 mx-auto followers-row">
                             <Col>Followers: {this.state.followers.length}</Col>
                             <Col>Following: {this.state.following.length}</Col>
+                        </Row>
+
+                        <Row className="mb-2 justify-content-md-center">
+                            <Col className="mt-1" md="auto">Sort By: </Col>
+                            <Col md="auto">
+                                <Button
+                                 disabled={!this.state.sortUpdate}
+                                 onClick={() => {
+                                    this.findUserRepoInfo(self, false)
+                                    this.setState({sortUpdate: false})}}
+                                >Created</Button>
+                            </Col>
+                            <Col md="auto">
+                                <Button
+                                 disabled={this.state.sortUpdate}
+                                 onClick={() => {
+                                    this.findUserRepoInfo(self, true)
+                                    this.setState({sortUpdate: true})}}
+                                >Updated</Button>
+                            </Col>
                         </Row>
                         
                         <RepoList 
