@@ -27,55 +27,24 @@ class Home extends React.Component {
     }
 
     findUserInfo(self) {
-        this.requestUserRepos(this.state.name, self)
-        this.requestUserFollowers(this.state.name, self)
-        this.requestUserFollowing(this.state.name, self)
+        this.getData(`https://api.github.com/users/${this.state.name}/repos`)
+         .then(data => self.setState({repoItems: data, showRepoList: true}));
+        this.getData(`https://api.github.com/users/${this.state.name}/followers`)
+         .then(data => self.setState({followers: data}));
+        this.getData(`https://api.github.com/users/${this.state.name}/following`)
+         .then(data => self.setState({following: data}));
     }
 
-    //TODO: REFACTOR
-    requestUserRepos(userName, self) {
-        const xhr = new XMLHttpRequest();
-        const url = `https://api.github.com/users/${userName}/repos`;
-    
-        // Providing 3 arguments (GET/POST, The URL, Async True/False)
-        xhr.open('GET', url, true);
-    
-        xhr.onload = function() {
-            const data = JSON.parse(this.response);
-            self.setState({repoItems: data, showRepoList: true});
-        }
-    
-        xhr.send();
-    }
+    async getData(url = '') {
+        const response = await fetch(url, {
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
 
-    requestUserFollowers(userName, self) {
-        const xhr = new XMLHttpRequest();
-        const url = `https://api.github.com/users/${userName}/followers`;
-    
-        // Providing 3 arguments (GET/POST, The URL, Async True/False)
-        xhr.open('GET', url, true);
-    
-        xhr.onload = function() {
-            const data = JSON.parse(this.response);
-            self.setState({followers: data});
-        }
-    
-        xhr.send();
-    }
-
-    requestUserFollowing(userName, self) {
-        const xhr = new XMLHttpRequest();
-        const url = `https://api.github.com/users/${userName}/following`;
-    
-        // Providing 3 arguments (GET/POST, The URL, Async True/False)
-        xhr.open('GET', url, true);
-    
-        xhr.onload = function() {
-            const data = JSON.parse(this.response);
-            self.setState({following: data});
-        }
-    
-        xhr.send();
+        return response.json();
     }
 
     render() {
