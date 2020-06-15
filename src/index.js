@@ -27,7 +27,7 @@ class Home extends React.Component {
     }
 
     findUserInfo(self) {
-        this.getData(`https://api.github.com/users/${this.state.name}/repos`)
+        this.getData(`https://api.github.com/users/${this.state.name}/repos?sort=updated`)
          .then(data => self.setState({repoItems: data, showRepoList: true}));
         this.getData(`https://api.github.com/users/${this.state.name}/followers`)
          .then(data => self.setState({followers: data}));
@@ -63,7 +63,7 @@ class Home extends React.Component {
                         onChange={this.handleChange}/>
                     <Button 
                      className="btn btn-primary ml-2"
-                     onClick={() => this.requestUserRepos(this.state.name, self)}
+                     onClick={() => this.findUserInfo(self)}
                      disabled={!this.formValid()}>
                         Submit
                     </Button>
