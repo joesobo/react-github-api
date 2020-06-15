@@ -27,18 +27,13 @@ class Home extends React.Component {
         return this.state.name.length;
     }
 
-    findUserRepoInfo(self, sortUpdated = true) {
-        if (sortUpdated) {
-            this.getData(`https://api.github.com/users/${this.state.name}/repos?sort=updated`)
-             .then(data => self.setState({repoItems: data, showRepoList: true}));
-        } else {
-            this.getData(`https://api.github.com/users/${this.state.name}/repos?sort=created`)
-             .then(data => self.setState({repoItems: data, showRepoList: true}));
-        }
+    findUserRepoInfo(self, params) {
+        this.getData(`https://api.github.com/users/${this.state.name}/repos?${params}`)
+         .then(data => self.setState({repoItems: data, showRepoList: true}));
     }
 
     findUserInfo(self) {
-        this.findUserRepoInfo(self);
+        this.findUserRepoInfo(self, "sort=updated");
         
         this.getData(`https://api.github.com/users/${this.state.name}/followers`)
          .then(data => self.setState({followers: data}));
@@ -96,7 +91,7 @@ class Home extends React.Component {
                                 <Button
                                  disabled={!this.state.sortUpdate}
                                  onClick={() => {
-                                    this.findUserRepoInfo(self, false)
+                                    this.findUserRepoInfo(self, "sort=created");
                                     this.setState({sortUpdate: false})}}
                                 >Created</Button>
                             </Col>
@@ -104,7 +99,7 @@ class Home extends React.Component {
                                 <Button
                                  disabled={this.state.sortUpdate}
                                  onClick={() => {
-                                    this.findUserRepoInfo(self, true)
+                                    this.findUserRepoInfo(self, "sort=updated");
                                     this.setState({sortUpdate: true})}}
                                 >Updated</Button>
                             </Col>
