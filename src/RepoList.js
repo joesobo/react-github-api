@@ -14,8 +14,6 @@ export default class RepoList extends React.Component {
 
         return (
             <div>
-                <h4 className="">{this.props.name}</h4>
-
                 <ListGroup className="disable-scrollbars mx-auto mb-5 repo-list">{array}</ListGroup>
             </div>
         );
