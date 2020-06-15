@@ -7,3 +7,11 @@
     max-height: 600px;
     overflow-y: scroll;
 }
+
+h4 {
+    text-align: center;
+    width: 50%;
+    margin: 2rem auto;
+    text-transform: capitalize;
+    text-decoration: underline;
+}

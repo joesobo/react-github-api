@@ -48,13 +48,13 @@ class Home extends React.Component {
                 <div className="form-inline mx-auto search-form"
                  onKeyPress={(e) => e.key === "Enter" ? this.requestUserRepos(this.state.name, self) : ''}>
                     <FormControl
-                        className="form-control mb-5"
+                        className="form-control"
                         type="text"
                         value={this.state.name}
                         placeholder="GitHub Username"
                         onChange={this.handleChange}/>
                     <Button 
-                     className="btn btn-primary ml-2 mb-5"
+                     className="btn btn-primary ml-2"
                      onClick={() => this.requestUserRepos(this.state.name, self)}
                      disabled={!this.formValid()}>
                         Submit
@@ -63,7 +63,9 @@ class Home extends React.Component {
 
                 {
                     this.state.showRepoList ?
-                    <RepoList items={this.state.repoItems}/> :
+                    <RepoList 
+                     items={this.state.repoItems}
+                     name={this.state.name}/> :
                     ''
                 }
             </div>
