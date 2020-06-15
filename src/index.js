@@ -11,7 +11,8 @@ class Home extends React.Component {
 
         this.state = {
            name: '',
-           repoItems: []
+           repoItems: [],
+           showRepoList: false
         }
     }
 
@@ -32,7 +33,7 @@ class Home extends React.Component {
     
         xhr.onload = function() {
             const data = JSON.parse(this.response);
-            self.setState({name: self.state.name, repoItems: data});
+            self.setState({name: self.state.name, repoItems: data, showRepoList: true});
         }
     
         xhr.send();
@@ -44,7 +45,8 @@ class Home extends React.Component {
         return(
             <div className='home'>
                 <h3 className="text-center mt-5">React Github API</h3>
-                <div className="form-inline mx-auto search-form">
+                <div className="form-inline mx-auto search-form"
+                 onKeyPress={(e) => e.key === "Enter" ? this.requestUserRepos(this.state.name, self) : ''}>
                     <FormControl
                         className="form-control mb-5"
                         type="text"
@@ -59,7 +61,11 @@ class Home extends React.Component {
                     </Button>
                </div>
 
-                <RepoList items={this.state.repoItems}/>
+                {
+                    this.state.showRepoList ?
+                    <RepoList items={this.state.repoItems}/> :
+                    ''
+                }
             </div>
         );
     }
