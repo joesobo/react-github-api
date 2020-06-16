@@ -8,7 +8,8 @@ export default class RepoList extends React.Component {
             array.push(
                 <RepoItem 
                  key={i}
-                 item={this.props.items[i]}/>
+                 item={this.props.items[i]}
+                 setDisplayRepo={this.props.setDisplayRepo}/>
             );
         }
 
@@ -26,7 +27,7 @@ class RepoItem extends React.Component {
 
         return (
             <ListGroupItem>
-                <p><strong>Repo:</strong> {this.props.item.name}</p>
+                <p onClick={() => this.props.setDisplayRepo(this.props.item)}><strong>Repo:</strong> {this.props.item.name}</p>
                 <p><strong>Description:</strong> {this.props.item.description}</p>
                 <p><strong>URL:</strong> <a href={url}>{this.props.item.html_url}</a></p>
             </ListGroupItem>

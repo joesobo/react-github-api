@@ -13,6 +13,8 @@ class Home extends React.Component {
            name: '',
            repoItems: [],
            showRepoList: false,
+           displayRepo: [],
+           showRepoInfo: true,
            followers: [],
            following: [],
            sortUpdate: true
@@ -27,6 +29,17 @@ class Home extends React.Component {
         return this.state.name.length;
     }
 
+    setDisplayRepo(value) {
+        console.log(1);
+        console.log(value);
+        this.setState({displayRepo: value});
+    }
+
+    findRepoCommitInfo(self) {
+        this.getData(`https://api.github.com/repos/${this.state.name}/TinyTurtleTanks/commits`)
+         .then(data => console.log(data));
+    }
+
     findUserRepoInfo(self, params) {
         this.getData(`https://api.github.com/users/${this.state.name}/repos?${params}`)
          .then(data => self.setState({repoItems: data, showRepoList: true}));
@@ -39,6 +52,8 @@ class Home extends React.Component {
          .then(data => self.setState({followers: data}));
         this.getData(`https://api.github.com/users/${this.state.name}/following`)
          .then(data => self.setState({following: data}));
+
+        this.findRepoCommitInfo(self);
     }
 
     async getData(url = '') {
@@ -75,41 +90,58 @@ class Home extends React.Component {
                     </Button>
                </div>
 
-                {
-                    this.state.showRepoList ?
-                    <div>
-                        <h4>{this.state.name}</h4>
+               <Row>
+                   <Col>
+                    {
+                        this.state.showRepoInfo ?
+                        <div>
+                            <h3>{this.state.displayRepo.name}</h3>
 
-                        <Row className="mb-2 mx-auto followers-row">
-                            <Col>Followers: {this.state.followers.length}</Col>
-                            <Col>Following: {this.state.following.length}</Col>
-                        </Row>
+                            {/* <RepoInfo repo={this.state.displayRepo}/> */}
+                        </div> :
+                        ''
+                    }
+                   </Col>
+                   <Col>
+                    {
+                        this.state.showRepoList ?
+                        <div>
+                            <h4>{this.state.name}</h4>
 
-                        <Row className="mb-2 justify-content-md-center">
-                            <Col className="mt-1" md="auto">Sort By: </Col>
-                            <Col md="auto">
-                                <Button
-                                 disabled={!this.state.sortUpdate}
-                                 onClick={() => {
-                                    this.findUserRepoInfo(self, "sort=created");
-                                    this.setState({sortUpdate: false})}}
-                                >Created</Button>
-                            </Col>
-                            <Col md="auto">
-                                <Button
-                                 disabled={this.state.sortUpdate}
-                                 onClick={() => {
-                                    this.findUserRepoInfo(self, "sort=updated");
-                                    this.setState({sortUpdate: true})}}
-                                >Updated</Button>
-                            </Col>
-                        </Row>
-                        
-                        <RepoList 
-                         items={this.state.repoItems}/>
-                    </div> :
-                    ''
-                }
+                            <Row className="mb-2 mx-auto followers-row">
+                                <Col>Followers: {this.state.followers.length}</Col>
+                                <Col>Following: {this.state.following.length}</Col>
+                            </Row>
+
+                            <Row className="mb-2 justify-content-md-center">
+                                <Col className="mt-1" md="auto">Sort By: </Col>
+                                <Col md="auto">
+                                    <Button
+                                    disabled={!this.state.sortUpdate}
+                                    onClick={() => {
+                                        this.findUserRepoInfo(self, "sort=created");
+                                        this.setState({sortUpdate: false})}}
+                                    >Created</Button>
+                                </Col>
+                                <Col md="auto">
+                                    <Button
+                                    disabled={this.state.sortUpdate}
+                                    onClick={() => {
+                                        this.findUserRepoInfo(self, "sort=updated");
+                                        this.setState({sortUpdate: true})}}
+                                    >Updated</Button>
+                                </Col>
+                            </Row>
+                            
+                            <RepoList 
+                             items={this.state.repoItems}
+                             setDisplayRepo={this.setDisplayRepo.bind(this)}/>
+                        </div> :
+                        ''
+                    }
+                   </Col>
+                   <Col></Col>
+               </Row>
             </div>
         );
     }
