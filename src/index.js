@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Button, FormControl, Row, Col } from 'react-bootstrap';
 import RepoList from './RepoList';
+import RepoInfo from './RepoInfo';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css'
 
@@ -95,9 +96,9 @@ class Home extends React.Component {
                     {
                         this.state.showRepoInfo ?
                         <div>
-                            <h3>{this.state.displayRepo.name}</h3>
+                            <h5 className="displayRepo-name">{this.state.displayRepo.name}</h5>
 
-                            {/* <RepoInfo repo={this.state.displayRepo}/> */}
+                            <RepoInfo repo={this.state.displayRepo}/>
                         </div> :
                         ''
                     }

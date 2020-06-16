@@ -17,6 +17,13 @@
     width: 45%;
 }
 
+.displayRepo-name {
+    text-transform: capitalize;
+    text-align: center;
+    width: 50%;
+    margin: 2rem auto;
+}
+
 h4 {
     text-align: center;
     width: 50%;
