@@ -15,7 +15,7 @@ export default class RepoList extends React.Component {
 
         return (
             <div>
-                <ListGroup className="disable-scrollbars mx-auto mb-5 repo-list">{array}</ListGroup>
+                <ListGroup className="mx-auto mb-5 repo-list">{array}</ListGroup>
             </div>
         );
     }

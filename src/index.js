@@ -15,7 +15,8 @@ class Home extends React.Component {
            repoItems: [],
            showRepoList: false,
            displayRepo: [],
-           showRepoInfo: true,
+           displayCommits: [],
+           showRepoInfo: false,
            followers: [],
            following: [],
            sortUpdate: true
@@ -31,14 +32,17 @@ class Home extends React.Component {
     }
 
     setDisplayRepo(value) {
-        console.log(1);
-        console.log(value);
-        this.setState({displayRepo: value});
+        //console.log(value);
+        //this.setState({displayRepo: value});
+        this.findRepoCommitInfo(value);
     }
 
-    findRepoCommitInfo(self) {
-        this.getData(`https://api.github.com/repos/${this.state.name}/TinyTurtleTanks/commits`)
-         .then(data => console.log(data));
+    findRepoCommitInfo(value) {
+        if (value) {
+            this.getData(`https://api.github.com/repos/${this.state.name}/${value.name}/commits`)
+             //.then(data => console.log(data))
+             .then(data => this.setState({displayRepo: value, displayCommits: data, showRepoInfo: true}));
+        }
     }
 
     findUserRepoInfo(self, params) {
@@ -53,8 +57,6 @@ class Home extends React.Component {
          .then(data => self.setState({followers: data}));
         this.getData(`https://api.github.com/users/${this.state.name}/following`)
          .then(data => self.setState({following: data}));
-
-        this.findRepoCommitInfo(self);
     }
 
     async getData(url = '') {
@@ -98,7 +100,9 @@ class Home extends React.Component {
                         <div>
                             <h5 className="displayRepo-name">{this.state.displayRepo.name}</h5>
 
-                            <RepoInfo repo={this.state.displayRepo}/>
+                            <RepoInfo 
+                             repo={this.state.displayRepo}
+                             commits={this.state.displayCommits}/>
                         </div> :
                         ''
                     }
