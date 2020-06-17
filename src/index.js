@@ -16,6 +16,7 @@ class Home extends React.Component {
            showRepoList: false,
            displayRepo: [],
            displayCommits: [],
+           repoCommitActivity: [],
            showRepoInfo: false,
            followers: [],
            following: [],
@@ -39,6 +40,8 @@ class Home extends React.Component {
         if (value) {
             this.getData(`https://api.github.com/repos/${this.state.name}/${value.name}/commits`)
              .then(data => this.setState({displayRepo: value, displayCommits: data, showRepoInfo: true}));
+            this.getData(`https://api.github.com/repos/${this.state.name}/${value.name}/stats/contributors`)
+             .then(data => this.setState({repoCommitActivity: data}));
         }
     }
 
@@ -99,7 +102,8 @@ class Home extends React.Component {
 
                             <RepoInfo 
                              repo={this.state.displayRepo}
-                             commits={this.state.displayCommits}/>
+                             commits={this.state.displayCommits}
+                             repoCommitActivity={this.state.repoCommitActivity}/>
                         </div> :
                         ''
                     }

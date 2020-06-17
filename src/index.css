@@ -24,8 +24,8 @@ body {
 .displayRepo-name {
     text-transform: capitalize;
     text-align: center;
-    width: 50%;
-    margin: 2rem auto 140px auto;
+    width: 70%;
+    margin: 4rem auto 4rem auto;
 }
 
 h4 {
@@ -34,4 +34,17 @@ h4 {
     margin: 2rem auto;
     text-transform: capitalize;
     text-decoration: underline;
+}
+
+.center-name {
+    width: 500px;
+    text-align: center;
+}
+
+.border {
+    /* border: 1px solid black; */
+    border-radius: 5px;
+    -webkit-box-shadow:inset 0px 0px 0px 1px #E7E7E7;
+    -moz-box-shadow:inset 0px 0px 0px 1px #E7E7E7;
+    box-shadow:inset 0px 0px 0px 1px #E7E7E7;
 }

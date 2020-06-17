@@ -3,8 +3,13 @@ import { ListGroupItem, ListGroup } from 'react-bootstrap';
 
 export default class RepoInfo extends React.Component {
     render() {
+        var totalCommits = 0;
+
+        if (this.props.repoCommitActivity[0]) {
+            totalCommits = this.props.repoCommitActivity[0].total;
+        }
+
         var array = [];
-        console.log(this.props.commits);
         if (this.props.commits) {
             for(let i = 0; i < this.props.commits.length; i++) {
                 array.push(
@@ -17,6 +22,7 @@ export default class RepoInfo extends React.Component {
 
         return(
             <div>
+                <p className="mx-auto center-name mb-4"><strong>Total Commits:</strong> {totalCommits}</p>
                 <ListGroup className="mx-auto mb-5 list">{array}</ListGroup>
             </div>
         );
