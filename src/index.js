@@ -32,15 +32,12 @@ class Home extends React.Component {
     }
 
     setDisplayRepo(value) {
-        //console.log(value);
-        //this.setState({displayRepo: value});
         this.findRepoCommitInfo(value);
     }
 
     findRepoCommitInfo(value) {
         if (value) {
             this.getData(`https://api.github.com/repos/${this.state.name}/${value.name}/commits`)
-             //.then(data => console.log(data))
              .then(data => this.setState({displayRepo: value, displayCommits: data, showRepoInfo: true}));
         }
     }
@@ -98,7 +95,7 @@ class Home extends React.Component {
                     {
                         this.state.showRepoInfo ?
                         <div>
-                            <h5 className="displayRepo-name">{this.state.displayRepo.name}</h5>
+                            <h5 className="displayRepo-name"><strong>Repository: </strong>{this.state.displayRepo.name}</h5>
 
                             <RepoInfo 
                              repo={this.state.displayRepo}

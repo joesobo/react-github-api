@@ -17,24 +17,28 @@ export default class RepoInfo extends React.Component {
 
         return(
             <div>
-                <ListGroup className="mx-auto mb-5">{array}</ListGroup>
+                <ListGroup className="mx-auto mb-5 list">{array}</ListGroup>
             </div>
         );
     }
 }
 
 class RepoInfoItem extends React.Component {
+    capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     render() {
-        var message = this.props.commit.commit.message;
+        var message = this.capitalizeFirstLetter(this.props.commit.commit.message);
         //TODO: add pictures
         var author = this.props.commit.commit.author.name;
-        var date = this.props.commit.commit.author.date;
+        var date = new Date(this.props.commit.commit.author.date);
 
         return (
             <ListGroupItem>
-                <p><strong>MESSAGE:</strong> {message}</p>
-                <p><strong>AUTHOR:</strong> {author}</p>
-                <p><strong>DATE:</strong> {date}</p>
+                <p><strong>Message:</strong> {message}</p>
+                <p><strong>Author:</strong> {author}</p>
+                <p><strong>Date:</strong> {date.toDateString()}</p>
             </ListGroupItem>
         );
     }
