@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Button, FormControl, Row, Col } from 'react-bootstrap';
 import RepoList from './RepoList';
 import RepoInfo from './RepoInfo';
+import RepoPunchCard from './RepoPunchCard';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css'
 
@@ -18,6 +19,8 @@ class Home extends React.Component {
            displayCommits: [],
            repoCommitActivity: [],
            showRepoInfo: false,
+           showPunchCard: false,
+           displayPunchCard: [],
            followers: [],
            following: [],
            sortUpdate: true
@@ -32,16 +35,29 @@ class Home extends React.Component {
         return this.state.name.length;
     }
 
-    setDisplayRepo(value) {
-        this.findRepoCommitInfo(value);
+    async getData(url = '') {
+        const response = await fetch(url, {
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        return response.json();
+    }
+
+    findUserRepoPunchCard(self) {
+        this.getData(`https://api.github.com/users/${this.state.name}/${this.state.displayRepo}/stats/punch_card`)
+         .then(data => self.setState({displayPunchCard: data, showPunchCard: true}));
     }
 
     findRepoCommitInfo(value) {
         if (value) {
-            this.getData(`https://api.github.com/repos/${this.state.name}/${value.name}/commits`)
-             .then(data => this.setState({displayRepo: value, displayCommits: data, showRepoInfo: true}));
             this.getData(`https://api.github.com/repos/${this.state.name}/${value.name}/stats/contributors`)
-             .then(data => this.setState({repoCommitActivity: data}));
+             .then(data => this.setState({repoCommitActivity: data}))
+             .then(this.getData(`https://api.github.com/repos/${this.state.name}/${value.name}/commits`)
+             .then(data => this.setState({displayRepo: value, displayCommits: data, showRepoInfo: true})));
         }
     }
 
@@ -57,18 +73,6 @@ class Home extends React.Component {
          .then(data => self.setState({followers: data}));
         this.getData(`https://api.github.com/users/${this.state.name}/following`)
          .then(data => self.setState({following: data}));
-    }
-
-    async getData(url = '') {
-        const response = await fetch(url, {
-            method: 'GET',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        return response.json();
     }
 
     render() {
@@ -98,7 +102,14 @@ class Home extends React.Component {
                     {
                         this.state.showRepoInfo ?
                         <div>
-                            <h5 className="displayRepo-name"><strong>Repository: </strong>{this.state.displayRepo.name}</h5>
+                            <h5 className="base-name"><strong>Repository: </strong>{this.state.displayRepo.name}</h5>
+
+                            <Row className="justify-content-md-center">
+                                <Button
+                                onClick={() =>
+                                    this.findUserRepoPunchCard(self)}
+                                >Show Punch Card</Button>
+                            </Row>
 
                             <RepoInfo 
                              repo={this.state.displayRepo}
@@ -141,12 +152,24 @@ class Home extends React.Component {
                             
                             <RepoList 
                              items={this.state.repoItems}
-                             setDisplayRepo={this.setDisplayRepo.bind(this)}/>
+                             setDisplayRepo={this.findRepoCommitInfo.bind(this)}/>
                         </div> :
                         ''
                     }
                    </Col>
-                   <Col></Col>
+                   <Col>
+                   {
+                        this.state.showPunchCard ?
+                        <div>
+                            <h5 className="base-name"><strong>Punch Card:</strong></h5>
+
+                            <RepoPunchCard
+                             items={this.state.displayPunchCard}
+                             />
+                        </div> :
+                        ''
+                    }
+                   </Col>
                </Row>
             </div>
         );

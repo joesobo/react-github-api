@@ -21,11 +21,11 @@ body {
     width: 45%;
 }
 
-.displayRepo-name {
+.base-name {
     text-transform: capitalize;
     text-align: center;
     width: 70%;
-    margin: 4rem auto 4rem auto;
+    margin: 2rem auto;
 }
 
 h4 {
