@@ -23,8 +23,17 @@ class Home extends React.Component {
            displayPunchCard: [],
            followers: [],
            following: [],
-           sortUpdate: true
+           sortUpdate: true,
+           rate_limit: 0,
+           rate_remaining: 0
         }
+    }
+
+    componentDidMount() {
+        this.getData(`https://api.github.com/rate_limit`)
+        //.then(data => console.log(data));
+        .then(data => this.setState({rate_limit: data.rate.limit, rate_remaining: data.rate.remaining}))
+        .then(console.log(this.state.rate_limit));
     }
 
     handleChange = (e) => {
@@ -80,7 +89,15 @@ class Home extends React.Component {
 
         return(
             <div className='home'>
-                <h3 className="text-center mt-2">React Github API</h3>
+                <Row>
+                    <Col md={{ span: 3, offset: 4 }}>
+                        <h3 className="text-center mt-2 left-pad">React Github API</h3>
+                    </Col>
+                    <Col md={{ span: 1, offset: 4 }}>
+                        <p className="text-center mt-2">Rate Limit: {this.state.rate_remaining}/{this.state.rate_limit}</p>
+                    </Col>
+                </Row>
+                
                 <div className="form-inline mx-auto search-form"
                  onKeyPress={(e) => e.key === "Enter" ? this.findUserInfo(self) : ''}>
                     <FormControl
