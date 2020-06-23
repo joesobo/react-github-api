@@ -1,17 +1,27 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const FormData = require("form-data");
 const fetch = require("node-fetch");
 
 const app = express();
-const access_token = '';
+
+const secret = '2128e19c3ebdf8f9bc534d5add5aa90b5c0efc09';
+
+//const access_token = '';
 
 app.use(bodyParser.json());
 app.use(bodyParser.json({ type: "text/*" }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(cookieParser());
+
 app.use((req, res, next) => {
+    console.log('Handling ' + req.path + '/' + req.method);
     res.header("Access-Control-Allow-Origin", "*");
+    res.header("Content-Type", "application/json");
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Credentials', true);
     next();
 });
 
@@ -30,11 +40,14 @@ app.post("/authenticate", (req, res) => {
     })
     .then(response => response.text())
     .then(paramsString => {
+        console.log("PARAMS " + paramsString)
+        //TODO: here return either all of params or just access_token (not sure if scope is nessecary)
         let params = new URLSearchParams(paramsString);
-        access_token = params.get("access_token");
+        const access_token = params.get("access_token");
         const scope = params.get("scope");
         const token_type = params.get("token_type");
 
+        console.log("2" + access_token);
         return fetch(`https://api.github.com/user?access_token=${access_token}&scope=${scope}&token_type=${token_type}`);
     })
     .then(response => response.json())
@@ -47,9 +60,8 @@ app.post("/authenticate", (req, res) => {
 });
 
 app.get("/rate_limit", (req, res) => {
-    //console.log(1);
-
-    fetch(`https://api.github.com/rate_limit?access_token=${access_token}`, {
+    //console.log("1" + access_token); ?access_token=${access_token}
+    fetch(`https://api.github.com/rate_limit`, {
         method: "GET"
     })
     .then(response => response.json())
@@ -60,6 +72,10 @@ app.get("/rate_limit", (req, res) => {
         return res.status(400).json(error);
     });
 });
+
+app.get('/api/secret', withAuth, function(req, res) {
+    res.send('The password is potato');
+})
 
 const PORT = process.env.SERVER_PORT || 5000;
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

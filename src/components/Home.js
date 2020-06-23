@@ -29,7 +29,9 @@ export default function Home() {
     }
 
     useEffect(() => {
-        findUserRateInfo();
+        if (getRate.rate_limit === 0) {
+            findUserRateInfo();
+        }
     });
 
     if (!state.isLoggedIn) {
@@ -51,8 +53,6 @@ export default function Home() {
     const formValid = () => {
         return this.state.name.length;
     }
-
-    
 
     return (
         <div className='home'>
