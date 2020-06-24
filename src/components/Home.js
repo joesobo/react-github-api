@@ -16,8 +16,12 @@ export default function Home() {
     });
 
     const getData = (path = '') => {
+        console.log("2 " + state.accessToken);
         return fetch("http://localhost:5000/" + path, {
-            method: "GET"
+            method: "GET",
+            headers: {
+                Authorization: state.accessToken
+            }
         });
     }
 
@@ -29,8 +33,10 @@ export default function Home() {
     }
 
     useEffect(() => {
-        if (getRate.rate_limit === 0) {
-            findUserRateInfo();
+        if (state.isLoggedIn) {
+            if (getRate.rate_limit === 0) {
+                findUserRateInfo();
+            }
         }
     });
 
@@ -38,7 +44,7 @@ export default function Home() {
         return <Redirect to="/login" />
     }
 
-    const { avatar_url, name, public_repos, followers, following } = state.user;     
+    //const { avatar_url, name, public_repos, followers, following } = state.user;     
 
     const handleLogout = () => {
         dispatch({

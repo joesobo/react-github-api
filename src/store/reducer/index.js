@@ -11,11 +11,13 @@ export const reducer = (state, action) => {
     switch (action.type) {
         case "LOGIN": {
             localStorage.setItem("isLoggedIn", JSON.stringify(action.payload.isLoggedIn))
-            localStorage.setItem("user", JSON.stringify(action.payload.user))
+            //localStorage.setItem("user", JSON.stringify(action.payload.user))
+            localStorage.setItem("accessToken", JSON.stringify(action.payload.accessToken))
             return {
                 ...state,
                 isLoggedIn: action.payload.isLoggedIn,
-                user: action.payload.user
+                //user: action.payload.user
+                accessToken: action.payload.accessToken
             };
         }
         case "LOGOUT": {
@@ -23,7 +25,8 @@ export const reducer = (state, action) => {
             return {
                 ...state,
                 isLoggedIn: false,
-                user: null
+                //user: null
+                accessToken: ''
             };
         }
         default: 

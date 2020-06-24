@@ -2,7 +2,6 @@ import React, { createContext, useReducer } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
-import Secret from "./components/Secret";
 import { initialState, reducer } from "./store/reducer/index.js";
 
 export const AuthContext = createContext();
@@ -21,7 +20,6 @@ function App() {
                 <Switch>
                     <Route path="/login" component={Login}/>
                     <Route path="/" component={Home}/>
-                    <Route path="/secret" component={Secret}/>
                 </Switch>
             </Router>
         </AuthContext.Provider>

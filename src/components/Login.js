@@ -32,9 +32,11 @@ export default function Login() {
             })
             .then(response => response.json())
             .then(data => {
+                console.log("1 " + data);
+                //localStorage.setItem("accessToken", data);
                 dispatch({
                     type: "LOGIN",
-                    payload: { user: data, isLoggedIn: true }
+                    payload: { accessToken: data, isLoggedIn: true }
                 });
             })
             .catch(error => {
@@ -47,7 +49,7 @@ export default function Login() {
     }, [state, dispatch, data]);
 
     if (state.isLoggedIn) {
-        return <Redirect to="/secret" />
+        return <Redirect to="/" />
     }
 
     return (
