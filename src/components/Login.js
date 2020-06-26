@@ -32,8 +32,6 @@ export default function Login() {
             })
             .then(response => response.json())
             .then(data => {
-                console.log("1 " + data);
-                //localStorage.setItem("accessToken", data);
                 dispatch({
                     type: "LOGIN",
                     payload: { accessToken: data, isLoggedIn: true }
