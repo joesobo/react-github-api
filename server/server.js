@@ -155,5 +155,24 @@ app.get("/repos/:userName/:repoName/commits", (req, res) => {
     });
 });
 
+app.get("/users/:userName/:repoName/stats/punch_card", (req, res) => {
+    var userName = req.params.userName;
+    var repoName = req.params.repoName;
+
+    fetch(`https://api.github.com/users/${userName}/${repoName}/stats/punch_card`, {
+        method: "GET",
+        headers: {
+            Authorization: "Bearer " + req.headers.authorization
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        return res.status(200).json(response);
+    })
+    .catch(error => {
+        return res.status(400).json(error);
+    });
+});
+
 const PORT = process.env.SERVER_PORT || 5000;
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

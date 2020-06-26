@@ -9,51 +9,27 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 export default function Home() {
     const { state, dispatch } = useContext(AuthContext);
-
+    
     const [getRate, setNewRate] = useState({
         rate_limit: 0,
         rate_remaining: 0,
     });
-
     const [getRepoName, setRepoName] = useState({ name: '' });
-
     const [getRepoCommitActivity, setRepoCommitActivity] = useState({ repoCommitActivity: [] });
-
     const [getFollowers, setFollowers] = useState({ followers: [] });
-
     const [getFollowing, setFollowing] = useState({ following: [] });
-
     const [getRepoItems, setRepoItems] = useState({ repoItems: [] });
-
     const [getRepoSort, setRepoSort] = useState({ sortUpdate: true });
-
     const [getRepoListDisplay, setRepoListDisplay] = useState({ showRepoList: false });
-
     const [getDisplayRepo, setDisplayRepo] = useState({
         repoDisplay: [],
         commitsDisplay: [], 
         showRepoInfo: false
     });
-
     const [getPunchCard, setPunchCard] = useState({
         punchCardDisplay: [],
         showPunchCard: false
     });
-
-    // const [getRepoInfo, setRepoInfo] = useState({
-    //     name: '',
-    //     repoItems: [],
-    //     repoDisplay: [],
-    //     repoCommitActivity: [],
-    //     commitsDisplay: [],
-    //     punchCardDisplay: [],
-    //     followers: [],
-    //     following: [],
-    //     showRepoList: false,
-    //     showRepoInfo: false,
-    //     showPunchCard: false,
-    //     sortUpdate: true,
-    // });
 
     const getData = (path = '') => {
         return fetch("http://localhost:5000/" + path, {
@@ -130,6 +106,12 @@ export default function Home() {
         .then(() => setRepoListDisplay({ showRepoList: true }));
     }
 
+    const findUserRepoPunchCard = () => {
+        getData(`users/${getRepoName.name}/${getDisplayRepo.displayRepo}/stats/punch_card`)
+         .then(response => response.json())
+         .then(data => setPunchCard({ punchCardDisplay: data, showPunchCard: true }));
+    }
+
     return (
         <div className='home'>
             <Row>
@@ -169,7 +151,7 @@ export default function Home() {
 
                         <Row className="justify-content-md-center">
                             <Button
-                            //onClick={() => this.findUserRepoPunchCard(self)}
+                            onClick={() => findUserRepoPunchCard()}
                             >Show Punch Card</Button>
                         </Row>
 
