@@ -110,9 +110,8 @@ export default function Home() {
     return (
         <div className='home'>
             <Row>
-                <Col md={{ span: 3, offset: 4 }}>
-                    <h3 className="text-center mt-2 pl-5">React Github API</h3>
-                </Col>
+                <Col md={{ span: 5, offset: 0 }}></Col>
+                <h2 className="text-center my-4 left-pad">React Github API</h2>
                 {/* TODO: add time at which it will reset */}
                 <Col md={{ span: 1, offset: 4 }}>
                     <p className="text-center mt-2">Rate Limit: {getRate.rate_remaining}/{getRate.rate_limit}</p>
@@ -122,7 +121,6 @@ export default function Home() {
             <div className="form-inline mx-auto search-form"
                 onKeyPress={(e) => e.key === "Enter" ? findUserInfo() : ''}>
                 <FormControl
-                    className="form-control"
                     type="text"
                     value={ getRepoName.name }
                     placeholder="GitHub Username"

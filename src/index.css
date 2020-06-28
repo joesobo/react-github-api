@@ -1,16 +1,70 @@
+:root {
+    --color1: #2B4040;
+    --color2: #5A7370;
+    --color3: #AEBFBE;
+    --color4: #F0F2F2;
+    --color5: #D2D9D8;
+    --color6: #F27052;
+}
+
 body {
     overflow: hidden;
+    background-color: var(--color2);
+    color: white;
+}
+
+strong {
+    color: var(--color1);
+}
+
+a {
+    color: var(--color1);
+}
+
+a:hover {
+    color: var(--color1);
+}
+
+.form-control::-webkit-input-placeholder { color: var(--color5); }  /* WebKit, Blink, Edge */
+.form-control:-moz-placeholder { color: var(--color5); }  /* Mozilla Firefox 4 to 18 */
+.form-control::-moz-placeholder { color: var(--color5); }  /* Mozilla Firefox 19+ */
+.form-control:-ms-input-placeholder { color: var(--color5); }  /* Internet Explorer 10-11 */
+.form-control::-ms-input-placeholder { color: var(--color5);}  /* Microsoft Edge */
+
+.btn-primary, .btn-primary:active, .btn-primary:focus, .btn-primary:hover, .btn-primary:disabled {
+    background-color: var(--color6) !important;
+    border-color: var(--color6) !important;
+    box-shadow: none;
+}
+
+.btn-primary:active {
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px var(--color1) !important;
 }
 
 .search-form {
     width: 315px;
 }
 
+.form-control, .form-control:active, .form-control:focus {
+    color: white;
+    background-color: var(--color2);
+    border-color: var(--color1);
+}
+
+.form-control:focus {
+    box-shadow: none;
+}
+
 .list {
     width: 500px;
     max-height: 580px;
     overflow-y: scroll;
-    border: 1px solid #E7E7E7;
+    border: 1px solid var(--color1);
+    background-color: var(--color2);
+}
+
+.list-group-item {
+    background-color: var(--color3);
 }
 
 .row {
@@ -48,7 +102,7 @@ h4 {
 .border {
     /* border: 1px solid black; */
     border-radius: 5px;
-    -webkit-box-shadow:inset 0px 0px 0px 1px #E7E7E7;
-    -moz-box-shadow:inset 0px 0px 0px 1px #E7E7E7;
-    box-shadow:inset 0px 0px 0px 1px #E7E7E7;
+    -webkit-box-shadow:inset 0px 0px 0px 1px var(--color1);
+    -moz-box-shadow:inset 0px 0px 0px 1px var(--color1);
+    box-shadow:inset 0px 0px 0px 1px var(--color1);
 }
