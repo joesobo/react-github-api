@@ -33,7 +33,7 @@ export default function Home() {
     });
 
     const findUserRateInfo = () => {
-        getData('rate_limit')
+        getData('rate_limit', state.accessToken)
         //TODO: add data.rate.reset for Date
         .then(response => response.json())
         .then(data => setNewRate({ rate_limit: data.rate.limit, rate_remaining: data.rate.remaining }));
@@ -71,10 +71,10 @@ export default function Home() {
 
     const findRepoCommitInfo = (value) => {
         if (value) {
-            getData(`repos/${getRepoName.name}/${value.name}/stats/contributors`)
+            getData(`repos/${getRepoName.name}/${value.name}/stats/contributors`, state.accessToken)
              .then(response => response.json())
              .then(data => setRepoCommitActivity({ repoCommitActivity: data }))
-             .then(getData(`repos/${getRepoName.name}/${value.name}/commits`)
+             .then(getData(`repos/${getRepoName.name}/${value.name}/commits`, state.accessToken)
               .then(response => response.json())
               .then(data => setDisplayRepo({ repoDisplay: value, commitsDisplay: data, showRepoInfo: true })))
              .then(() => findUserRateInfo());
@@ -82,7 +82,7 @@ export default function Home() {
     }
 
     const findUserRepoInfo = (params) => {
-        getData(`users/${getRepoName.name}/repos?${params}`)
+        getData(`users/${getRepoName.name}/repos?${params}`, state.accessToken)
          .then(response => response.json())
          .then(data => setRepoItems({ repoItems: data }));
     }
@@ -90,10 +90,10 @@ export default function Home() {
     const findUserInfo = () => {
         findUserRepoInfo("sort=updated");
         
-        getData(`users/${getRepoName.name}/followers`)
+        getData(`users/${getRepoName.name}/followers`, state.accessToken)
          .then(response => response.json())
          .then(data => setFollowers({ followers: data }));
-        getData(`users/${getRepoName.name}/following`)
+        getData(`users/${getRepoName.name}/following`, state.accessToken)
          .then(response => response.json())
          .then(data => setFollowing({ following: data }))
         .then(() => setRepoListDisplay({ showRepoList: true }))
@@ -101,7 +101,7 @@ export default function Home() {
     }
 
     const findUserRepoPunchCard = () => {
-        getData(`users/${getRepoName.name}/${getDisplayRepo.displayRepo}/stats/punch_card`)
+        getData(`users/${getRepoName.name}/${getDisplayRepo.displayRepo}/stats/punch_card`, state.accessToken)
          .then(response => response.json())
          .then(data => setPunchCard({ punchCardDisplay: data, showPunchCard: true }))
          .then(() => findUserRateInfo());
