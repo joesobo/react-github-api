@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Redirect } from "react-router-dom";
-import { AuthContext } from "../App";
+import { Row, Col } from 'react-bootstrap';
+import { AuthContext } from "../../App";
+import './Login.css';
 
 export default function Login() {
     const { state, dispatch } = useContext(AuthContext);
@@ -53,26 +55,27 @@ export default function Login() {
     return (
         <section className="container">
             <div>
-                <h1>Welcome</h1>
-                <span>Super Amazing app</span>
-                <span>{data.errorMessage}</span>
-                <div className="login-container">
-                    {data.isLoading ? (
-                        <div className="loader-container">
-                            <div className="loader"></div>
-                        </div>
-                    ) : (
-                        <a 
-                            className="login-link"
-                            href={`https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}&redirect_uri=${redirect_uri}`}
-                            onClick={() => {
-                                setData({ ...data, errorMessage: "" });
-                            }}
-                        >
-                            <span>Login with GitHub</span>
-                        </a>
-                    )}
-                </div>
+                <Col>
+                    <h1 className="text-center mt-4">Welcome</h1>
+                    <span>{data.errorMessage}</span>
+                    <div className="login-container text-center mt-4">
+                        {data.isLoading ? (
+                            <div className="loader-container">
+                                <div className="loader"></div>
+                            </div>
+                        ) : (
+                            <a 
+                                className="login-link"
+                                href={`https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}&redirect_uri=${redirect_uri}`}
+                                onClick={() => {
+                                    setData({ ...data, errorMessage: "" });
+                                }}
+                            >
+                                <span>Login with GitHub</span>
+                            </a>
+                        )}
+                    </div>
+                </Col>
             </div>
         </section>
     )

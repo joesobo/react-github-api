@@ -1,7 +1,7 @@
 import React, { createContext, useReducer } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./components/Home";
-import Login from "./components/Login";
+import Login from "./components/Login/Login";
 import { initialState, reducer } from "./store/reducer/index.js";
 
 export const AuthContext = createContext();
