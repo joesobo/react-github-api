@@ -84,7 +84,8 @@ export default function Home() {
              .then(data => setRepoCommitActivity({ repoCommitActivity: data }))
              .then(getData(`repos/${getRepoName.name}/${value.name}/commits`)
               .then(response => response.json())
-              .then(data => setDisplayRepo({ repoDisplay: value, commitsDisplay: data, showRepoInfo: true })));
+              .then(data => setDisplayRepo({ repoDisplay: value, commitsDisplay: data, showRepoInfo: true })))
+             .then(() => findUserRateInfo());
         }
     }
 
@@ -103,20 +104,22 @@ export default function Home() {
         getData(`users/${getRepoName.name}/following`)
          .then(response => response.json())
          .then(data => setFollowing({ following: data }))
-        .then(() => setRepoListDisplay({ showRepoList: true }));
+        .then(() => setRepoListDisplay({ showRepoList: true }))
+        .then(() => findUserRateInfo());
     }
 
     const findUserRepoPunchCard = () => {
         getData(`users/${getRepoName.name}/${getDisplayRepo.displayRepo}/stats/punch_card`)
          .then(response => response.json())
-         .then(data => setPunchCard({ punchCardDisplay: data, showPunchCard: true }));
+         .then(data => setPunchCard({ punchCardDisplay: data, showPunchCard: true }))
+         .then(() => findUserRateInfo());
     }
 
     return (
         <div className='home'>
             <Row>
                 <Col md={{ span: 3, offset: 4 }}>
-                    <h3 className="text-center mt-2 left-pad">React Github API</h3>
+                    <h3 className="text-center mt-2 pl-5">React Github API</h3>
                 </Col>
                 {/* TODO: add time at which it will reset */}
                 <Col md={{ span: 1, offset: 4 }}>
