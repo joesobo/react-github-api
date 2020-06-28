@@ -5,6 +5,7 @@ import { Button, FormControl, Row, Col } from 'react-bootstrap';
 import RepoList from './RepoList';
 import RepoInfo from './RepoInfo';
 import RepoPunchCard from './RepoPunchCard';
+import { getData } from '../api';
 import 'bootstrap/dist/css/bootstrap.css';
 
 export default function Home() {
@@ -30,15 +31,6 @@ export default function Home() {
         punchCardDisplay: [],
         showPunchCard: false
     });
-
-    const getData = (path = '') => {
-        return fetch("http://localhost:5000/" + path, {
-            method: "GET",
-            headers: {
-                Authorization: state.accessToken
-            }
-        });
-    }
 
     const findUserRateInfo = () => {
         getData('rate_limit')
